@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+
+  <h1>Admin Dashboard</h1>
+  <p id="adminName">Loading...</p>
+
+  <hr>
+
+  <h3>Loan Overview</h3>
+
+  <ul>
+    <li>Total Loans: <b id="totalLoans">0</b></li>
+    <li>Pending Loans: <b id="pendingLoans">0</b></li>
+    <li>Approved Loans: <b id="approvedLoans">0</b></li>
+  </ul>
+
+  <hr>
+
+  <h3>Actions</h3>
+  <a href="admin-loans.html">Verify Loan Applications</a><br><br>
+  <br>
+  <a href="../public/dashboard.html">Back to Dashboard</a>
+
+
+  <button onclick="logout()">Logout</button>
+
+  <script type="module" src="./js/admin-dashboard.js"></script>
+</body>
+</html>

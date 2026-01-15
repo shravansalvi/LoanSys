@@ -1,0 +1,33 @@
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+}
+button {
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+h2 {
+  color: #1e3a8a;
+}
+
+a {
+  display: inline-block;
+  margin: 5px 0;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+button {
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

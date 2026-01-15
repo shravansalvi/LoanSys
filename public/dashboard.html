@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+
+  <h2 id="welcome">Loading...</h2>
+
+  <!-- Borrower Panel -->
+<div id="borrowerSection" style="display:none;">
+  <h3>Borrower Panel</h3>
+
+  <a href="apply-loan.html">Apply Loan</a><br><br>
+  <a href="borrower-loans.html">My Loan Status</a><br><br>
+  <a href="pay-emi.html">Pay EMI</a><br><br>
+  <a href="upload-documents.html">Upload Documents</a><br><br>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<!-- Admin Panel -->
+<div id="adminSection" style="display:none;">
+  <h3>Admin / Loan Officer Panel</h3>
+
+  <a href="../admin/admin-dashboard.html">Admin Dashboard</a><br><br>
+  <a href="../admin/admin-loans.html">Verify Loan Applications</a><br><br>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script type="module" src="./js/dashboard.js"></script>
+</body>
+</html>

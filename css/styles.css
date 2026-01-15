@@ -31,3 +31,108 @@ button {
   border: none;
   cursor: pointer;
 }
+
+/* ===== BANK THEME ===== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f4f6f9;
+  color: #1f2937;
+}
+
+/* Header */
+.header {
+  background-color: #0f2a44;
+  color: #ffffff;
+  padding: 16px 30px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Layout */
+.container {
+  padding: 30px;
+}
+
+/* Cards */
+.card {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Card title */
+.card h3 {
+  margin-top: 0;
+  color: #0f2a44;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 180px;
+  background-color: #f9fafb;
+  border-left: 5px solid #2563eb;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.stat-box span {
+  display: block;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.stat-box strong {
+  font-size: 26px;
+  color: #111827;
+}
+
+/* Links */
+a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  background-color: #2563eb;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+/* Charts */
+canvas {
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+/* Footer actions */
+.actions a {
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 10px;
+}

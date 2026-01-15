@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Repayment Report</title>
+    <title>Repayment Report</title>
 </head>
+
 <body>
+    <h3>Search & Filter</h3>
 
-<h2>All EMI Repayments</h2>
+    <input type="text" id="searchInput" placeholder="Search by user or loan name">
 
-<table border="1" cellpadding="8">
-  <thead>
-    <tr>
-      <th>Loan ID</th>
-      <th>EMI No</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Paid On</th>
-    </tr>
-  </thead>
-  <tbody id="repaymentTable">
-    Loading...
-  </tbody>
-</table>
+    <select id="statusFilter">
+        <option value="">All</option>
+        <option value="paid">Paid</option>
+        <option value="pending">Pending</option>
+    </select>
 
-<br>
-<a href="admin-dashboard.html">Back</a>
+    <br><br>
 
-<script type="module" src="../js/admin-repayments.js"></script>
+    <h2>All EMI Repayments</h2>
+
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Loan Name</th>
+                <th>EMI</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Paid On</th>
+            </tr>
+        </thead>
+        <tbody id="repaymentTable">
+            Loading...
+        </tbody>
+    </table>
+
+    <br>
+    <a href="admin-dashboard.html">Back</a>
+
+    <script type="module" src="./js/admin-repayments.js"></script>
 </body>
+
 </html>

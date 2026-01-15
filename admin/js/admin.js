@@ -88,13 +88,18 @@ window.approveLoan = async function (loanId) {
 
   // 2️⃣ Create EMI schedule
   for (let i = 1; i <= N; i++) {
+    const dueDate = new Date();
+    dueDate.setMonth(dueDate.getMonth() + i);
+
     await addDoc(collection(db, "repayments"), {
-      loanId: loanId,
+      loanId,
       emiNumber: i,
-      emiName: `EMI ${i}`,   // ✅ added
       amount: Math.round(emi),
-      status: "pending"
+      status: "pending",
+      dueDate: dueDate
     });
+
+
   }
 
   alert("Loan Approved");

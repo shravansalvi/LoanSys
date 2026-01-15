@@ -13,6 +13,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // 1️⃣ Get approved loan
   const loanSnap = await getDocs(
     query(
       collection(db, "loans"),
@@ -21,8 +27,16 @@ onAuthStateChanged(auth, async (user) => {
     )
   );
 
+  // ❗ SAFETY CHECK
+  if (loanSnap.empty) {
+    document.getElementById("emiTable").innerHTML =
+      "<tr><td colspan='4'>No approved loan found</td></tr>";
+    return;
+  }
+
   const loanId = loanSnap.docs[0].id;
 
+  // 2️⃣ Get EMI schedule
   const emiSnap = await getDocs(
     query(collection(db, "repayments"), where("loanId", "==", loanId))
   );
@@ -30,12 +44,19 @@ onAuthStateChanged(auth, async (user) => {
   const table = document.getElementById("emiTable");
   table.innerHTML = "";
 
+  if (emiSnap.empty) {
+    table.innerHTML =
+      "<tr><td colspan='4'>No EMI schedule found</td></tr>";
+    return;
+  }
+
+  // 3️⃣ Render EMI list
   emiSnap.forEach((d) => {
     const emi = d.data();
 
     table.innerHTML += `
       <tr>
-        <td>${emi.emiNumber}</td>
+        <td>EMI ${emi.emiNumber}</td>
         <td>₹${emi.amount}</td>
         <td>${emi.status}</td>
         <td>

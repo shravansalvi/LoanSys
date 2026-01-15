@@ -1,7 +1,7 @@
 import { auth, db } from "../../public/js/firebase-config.js";
 
 import { onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
   collection,
@@ -91,6 +91,7 @@ window.approveLoan = async function (loanId) {
     await addDoc(collection(db, "repayments"), {
       loanId: loanId,
       emiNumber: i,
+      emiName: `EMI ${i}`,   // ✅ added
       amount: Math.round(emi),
       status: "pending"
     });

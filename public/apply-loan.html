@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Apply Loan</title>
-  <link rel="stylesheet" href="../css/styles.css">
-
+  <title>Loan Application Form</title>
 </head>
 <body>
 
-  <h2>Loan Application Form</h2>
+<h2>Loan Application Form</h2>
 
-  <input type="number" id="amount" placeholder="Loan Amount"><br><br>
-  <input type="number" id="interest" placeholder="Interest Rate (%)"><br><br>
-  <input type="number" id="tenure" placeholder="Tenure (Months)"><br><br>
+<input type="number" id="amount" placeholder="Loan Amount"><br><br>
+<input type="number" id="tenure" placeholder="Tenure (months)"><br><br>
+<input type="number" id="rate" placeholder="Interest Rate"><br><br>
 
-  <button onclick="applyLoan()">Submit Loan Application</button>
+<button onclick="applyLoan()">Submit Loan Application</button>
 
-  <p><a href="dashboard.html">Back to Dashboard</a></p>
-  
+<br><br>
+<a href="dashboard.html">Back to Dashboard</a>
 
-  <script type="module" src="./js/loan.js"></script>
+<script type="module" src="./js/loan.js"></script>
 </body>
 </html>

@@ -2,20 +2,26 @@
 <html>
 <head>
   <title>Pay EMI</title>
-  <link rel="stylesheet" href="../css/styles.css">
-
 </head>
 <body>
 
-  <h2>Pay EMI</h2>
+<h2>Select EMI to Pay</h2>
 
-  <p><b>EMI Amount:</b> ₹<span id="emiAmount"></span></p>
-  <button onclick="payEmi()">Pay EMI</button>
+<table border="1">
+  <thead>
+    <tr>
+      <th>EMI No</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="emiTable">Loading...</tbody>
+</table>
 
-  <br><br>
-  <a href="dashboard.html">Back to Dashboard</a>
+<br>
+<a href="dashboard.html">Back to Dashboard</a>
 
-  <script type="module" src="/public/js/repayment.js"></script>
-
+<script type="module" src="./js/repayment.js"></script>
 </body>
 </html>

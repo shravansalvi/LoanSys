@@ -8,59 +8,54 @@ import {
   query,
   where,
   getDocs,
-  addDoc
+  updateDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-let currentLoanId = null;
-let emiAmount = null;
-
-// CHECK LOGIN & LOAD EMI
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  const loanQuery = query(
-    collection(db, "loans"),
-    where("userId", "==", user.uid),
-    where("status", "==", "approved")
+  const loanSnap = await getDocs(
+    query(
+      collection(db, "loans"),
+      where("userId", "==", user.uid),
+      where("status", "==", "approved")
+    )
   );
 
-  const snapshot = await getDocs(loanQuery);
+  const loanId = loanSnap.docs[0].id;
 
-  if (snapshot.empty) {
-    document.getElementById("emiAmount").innerText =
-      "No approved loan found";
-    return;
-  }
+  const emiSnap = await getDocs(
+    query(collection(db, "repayments"), where("loanId", "==", loanId))
+  );
 
-  const loanData = snapshot.docs[0].data();
+  const table = document.getElementById("emiTable");
+  table.innerHTML = "";
 
-  // 🔐 SAFETY CHECK
-  if (!loanData.emi) {
-    alert("EMI not generated yet. Ask admin to approve loan.");
-    return;
-  }
+  emiSnap.forEach((d) => {
+    const emi = d.data();
 
-  currentLoanId = snapshot.docs[0].id;
-  emiAmount = Number(loanData.emi);
-
-  document.getElementById("emiAmount").innerText = emiAmount;
+    table.innerHTML += `
+      <tr>
+        <td>${emi.emiNumber}</td>
+        <td>₹${emi.amount}</td>
+        <td>${emi.status}</td>
+        <td>
+          ${
+            emi.status === "pending"
+              ? `<button onclick="payEmi('${d.id}')">Pay</button>`
+              : "Paid"
+          }
+        </td>
+      </tr>
+    `;
+  });
 });
 
-// PAY EMI (GLOBAL FUNCTION)
-window.payEmi = async function () {
-  if (!currentLoanId || emiAmount === null) {
-    alert("EMI data not available");
-    return;
-  }
-
-  await addDoc(collection(db, "repayments"), {
-    loanId: currentLoanId,
-    amount: emiAmount,
+window.payEmi = async function (id) {
+  await updateDoc(doc(db, "repayments", id), {
+    status: "paid",
     paidOn: new Date()
   });
 
-  alert("EMI Paid Successfully");
+  alert("EMI Paid");
+  location.reload();
 };

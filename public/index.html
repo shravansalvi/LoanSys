@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Firebase Test</title>
-  <link rel="stylesheet" href="../css/styles.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - Bank Loan Management</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <h2>Firebase Connected Successfully</h2>
+  <div class="container" style="margin-top: 100px; text-align: center;">
+    <h1>✅ Firebase Connected Successfully</h1>
+    <p style="font-size: 1.1em; color: #666; margin: 30px 0;">Welcome to Bank Loan Management System</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+      <a href="login.html" class="btn btn-primary">🔐 Login</a>
+      <a href="regestier.html" class="btn btn-secondary">📝 Register</a>
+    </div>
+  </div>
 
-  <script type="module" src="js/firebaseconfig.js"></script>
+  <script type="module" src="./js/firebase-config.js"></script>
 </body>
 </html>

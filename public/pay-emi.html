@@ -1,27 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pay EMI</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>💳 Select EMI to Pay</h1>
+    <a href="dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-<h2>Select EMI to Pay</h2>
+  <div class="container">
+    <section class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>EMI Name</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="emiTable">
+            <tr>
+              <td colspan="4" style="text-align: center; color: #999;">Loading EMIs...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 
-<table border="1">
-  <thead>
-    <tr>
-      <th>EMI Name</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="emiTable">Loading...</tbody>
-</table>
-
-<br>
-<a href="dashboard.html">Back to Dashboard</a>
-
-<script type="module" src="./js/repayment.js"></script>
+  <script type="module" src="./js/repayment.js"></script>
 </body>
 </html>

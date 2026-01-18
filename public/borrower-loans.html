@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Loans</title>
-  <link rel="stylesheet" href="../css/styles.css">
-
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>📋 My Loan Applications</h1>
+    <a href="dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-  <h2>My Loan Applications</h2>
-
-  <div id="loanList">Loading...</div>
-
-  <br>
-  <a href="dashboard.html">Back to Dashboard</a>
-  
-
+  <div class="container">
+    <section class="card">
+      <div id="loanList">
+        <p style="text-align: center; color: #999;">Loading your loan applications...</p>
+      </div>
+    </section>
+  </div>
 
   <script type="module" src="./js/borrower-loans.js"></script>
 </body>

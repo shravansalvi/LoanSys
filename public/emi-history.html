@@ -1,30 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EMI Payment History</title>
-    <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>📊 My EMI Payment History</h1>
+    <a href="dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-<h2>My EMI Payment History</h2>
+  <div class="container">
+    <section class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>EMI No</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Paid On</th>
+            </tr>
+          </thead>
+          <tbody id="historyTable">
+            <tr>
+              <td colspan="4" style="text-align: center; color: #999;">Loading history...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 
-<table border="1" cellpadding="8">
-  <thead>
-    <tr>
-      <th>EMI No</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Paid On</th>
-    </tr>
-  </thead>
-  <tbody id="historyTable">
-    Loading...
-  </tbody>
-</table>
-
-<br>
-<a href="dashboard.html">Back to Dashboard</a>
-
-<script type="module" src="./js/emi-history.js"></script>
+  <script type="module" src="./js/emi-history.js"></script>
 </body>
 </html>

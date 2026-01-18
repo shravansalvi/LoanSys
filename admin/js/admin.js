@@ -1,117 +1,185 @@
-import { auth, db } from "../../public/js/firebase-config.js";
-
-import { onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
+import { db, auth } from "../../public/js/firebase-config.js";
 import {
   collection,
+  getDocs,
   query,
   where,
-  getDocs,
-  doc,
-  getDoc,
   updateDoc,
-  addDoc
+  doc,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// AUTH + ROLE CHECK
+let isAuthorized = false;
+
+// Check if user is admin
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "../../public/login.html";
     return;
   }
 
-  const userSnap = await getDoc(doc(db, "users", user.uid));
+  try {
+    const usersRef = collection(db, "users");
+    const userQuery = query(usersRef, where("uid", "==", user.uid));
+    const userSnapshot = await getDocs(userQuery);
 
-  if (!userSnap.exists() || userSnap.data().role !== "admin") {
-    alert("Access denied");
-    return;
+    if (userSnapshot.empty) {
+      window.location.href = "../../public/dashboard.html";
+      return;
+    }
+
+    const userData = userSnapshot.docs[0].data();
+    const userRole = userData.role || "borrower";
+
+    if (userRole !== "admin" && userRole !== "loan_officer") {
+      window.location.href = "../../public/dashboard.html";
+      return;
+    }
+
+    isAuthorized = true;
+  } catch (error) {
+    console.error("Auth check error:", error);
+    window.location.href = "../../public/dashboard.html";
   }
-
-  loadPendingLoans();
 });
 
-
-// LOAD PENDING LOANS
 async function loadPendingLoans() {
-  const loanList = document.getElementById("loanList");
-  loanList.innerHTML = "Loading...";
+  try {
+    const pendingQuery = query(
+      collection(db, "loans"),
+      where("status", "==", "pending")
+    );
+    const querySnapshot = await getDocs(pendingQuery);
+    const loanList = document.getElementById("loanList");
 
-  const q = query(
-    collection(db, "loans"),
-    where("status", "==", "pending")
-  );
+    if (!loanList) {
+      console.error("loanList element not found");
+      return;
+    }
 
-  const snapshot = await getDocs(q);
+    loanList.innerHTML = "";
 
-  if (snapshot.empty) {
-    loanList.innerHTML = "No loan application found";
-    return;
-  }
+    if (querySnapshot.empty) {
+      loanList.innerHTML =
+        '<p style="text-align: center; color: #999; padding: 20px;">✅ No pending loans</p>';
+      return;
+    }
 
-  loanList.innerHTML = "";
+    let html = "";
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const appliedDate = data.createdAt?.toDate?.()
+        ? new Date(data.createdAt.toDate()).toLocaleDateString("en-IN")
+        : "N/A";
 
-  snapshot.forEach((docSnap) => {
-    const loan = docSnap.data();
-
-    loanList.innerHTML += `
-  <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-    <p><b>Amount:</b> ₹${loan.loanAmount}</p>
-    <p><b>Tenure:</b> ${loan.tenure} months</p>
-
-    <button onclick="approveLoan('${docSnap.id}')">Approve</button>
-    <button onclick="rejectLoan('${docSnap.id}')">Reject</button>
-  </div>
-`;
-  });
-}
-
-// APPROVE LOAN (loanId is DEFINED HERE ✅)
-window.approveLoan = async function (loanId) {
-  const loanRef = doc(db, "loans", loanId);
-  const loanSnap = await getDoc(loanRef);
-  const loan = loanSnap.data();
-
-  const P = loan.loanAmount;
-  const R = loan.interestRate / (12 * 100);
-  const N = loan.tenure;
-
-  const emi =
-    (P * R * Math.pow(1 + R, N)) /
-    (Math.pow(1 + R, N) - 1);
-
-  // 1️⃣ Update loan
-  await updateDoc(loanRef, {
-    status: "approved",
-    emi: Math.round(emi)
-  });
-
-  // 2️⃣ Create EMI schedule
-  for (let i = 1; i <= N; i++) {
-    const dueDate = new Date();
-    dueDate.setMonth(dueDate.getMonth() + i);
-
-    await addDoc(collection(db, "repayments"), {
-      loanId,
-      emiNumber: i,
-      amount: Math.round(emi),
-      status: "pending",
-      dueDate: dueDate
+      const card = `
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">${data.loanName || "Loan"}</h3>
+          </div>
+          <div class="card-content">
+            <div class="card-row">
+              <span class="card-label">Applicant:</span>
+              <span class="card-value">${data.userName || "N/A"}</span>
+            </div>
+            <div class="card-row">
+              <span class="card-label">Amount:</span>
+              <span class="card-value">₹${parseFloat(
+                data.amount || 0
+              ).toLocaleString()}</span>
+            </div>
+            <div class="card-row">
+              <span class="card-label">Tenure:</span>
+              <span class="card-value">${data.tenure || 0} months</span>
+            </div>
+            <div class="card-row">
+              <span class="card-label">Interest Rate:</span>
+              <span class="card-value">${data.rate || 0}%</span>
+            </div>
+            <div class="card-row">
+              <span class="card-label">Monthly EMI:</span>
+              <span class="card-value">₹${parseFloat(
+                data.monthlyEMI || 0
+              ).toLocaleString()}</span>
+            </div>
+            <div class="card-row">
+              <span class="card-label">Applied On:</span>
+              <span class="card-value">${appliedDate}</span>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button class="btn btn-success" onclick="approveLoan('${doc.id}')">✅ Approve</button>
+              <button class="btn btn-danger" onclick="rejectLoan('${doc.id}')">❌ Reject</button>
+            </div>
+          </div>
+        </div>
+      `;
+      html += card;
     });
 
-
+    loanList.innerHTML = html;
+  } catch (error) {
+    console.error("Error loading loans:", error);
+    document.getElementById("loanList").innerHTML =
+      '<p style="color: red; padding: 20px;">❌ Error loading loans: ' +
+      error.message +
+      "</p>";
   }
+}
 
-  alert("Loan Approved");
-  loadPendingLoans();
-};
+async function approveLoan(loanId) {
+  try {
+    const confirmed = confirm("Are you sure you want to approve this loan?");
+    if (!confirmed) return;
 
+    await updateDoc(doc(db, "loans", loanId), {
+      status: "approved",
+    });
+    alert("✅ Loan approved successfully!");
+    loadPendingLoans();
+  } catch (error) {
+    console.error("Error approving loan:", error);
+    alert("❌ Error approving loan: " + error.message);
+  }
+}
 
-// REJECT LOAN
-window.rejectLoan = async function (loanId) {
-  await updateDoc(doc(db, "loans", loanId), {
-    status: "rejected"
-  });
+async function rejectLoan(loanId) {
+  try {
+    const reason = prompt("Enter reason for rejection (optional):");
 
-  loadPendingLoans();
-};
+    await updateDoc(doc(db, "loans", loanId), {
+      status: "rejected",
+      rejectionReason: reason || "Not specified",
+    });
+    alert("✅ Loan rejected!");
+    loadPendingLoans();
+  } catch (error) {
+    console.error("Error rejecting loan:", error);
+    alert("❌ Error rejecting loan: " + error.message);
+  }
+}
+
+async function logout() {
+  try {
+    const { signOut } = await import(
+      "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+    );
+    await signOut(auth);
+    localStorage.clear();
+    alert("✅ Logged out successfully");
+    window.location.href = "../../public/login.html";
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+}
+
+window.approveLoan = approveLoan;
+window.rejectLoan = rejectLoan;
+window.logout = logout;
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (isAuthorized) {
+    loadPendingLoans();
+  }
+});

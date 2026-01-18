@@ -1,18 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Upload Documents</title>
-    <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>📄 Upload Documents</h1>
+    <a href="dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-  <h2>Upload Documents</h2>
+  <div class="container">
+    <section class="card">
+      <h2>📤 Upload Your Documents</h2>
+      
+      <form onsubmit="uploadDoc(event)">
+        <div class="form-group">
+          <label for="docFile">Select Document</label>
+          <input type="file" id="docFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+          <small style="color: #666; margin-top: 5px; display: block;">Accepted formats: PDF, DOC, DOCX, JPG, PNG</small>
+        </div>
 
-  <input type="file" id="docFile"><br><br>
-  <button onclick="uploadDoc()">Upload</button>
-
-  <br><br>
-  <a href="dashboard.html">Back to Dashboard</a>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Upload Document</button>
+      </form>
+    </section>
+  </div>
 
   <script type="module" src="./js/upload.js"></script>
 </body>

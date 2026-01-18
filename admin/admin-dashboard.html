@@ -1,80 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Dashboard</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="../css/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Dashboard for Bank Loan Management System">
+  <title>Admin Dashboard - Bank Loan Management</title>
+  <link rel="stylesheet" href="../public/css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-
-<div class="header">
-  Bank Loan Management – Admin Dashboard
-</div>
-
-<div class="container">
-
-  <!-- Loan Analytics -->
-  <div class="card">
-    <h3>Loan Overview</h3>
-    <div class="stats">
-      <div class="stat-box">
-        <span>Total Loans</span>
-        <strong id="totalLoans">0</strong>
+  <!-- Navigation Header -->
+  <header>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1>🏦 Bank Loan Management – Admin Dashboard</h1>
       </div>
-      <div class="stat-box">
-        <span>Approved Loans</span>
-        <strong id="approvedLoans">0</strong>
+      <button class="btn btn-danger" onclick="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Loan Analytics Section -->
+    <section class="card" aria-labelledby="loan-overview">
+      <h2 id="loan-overview">📊 Loan Overview</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-icon">📄</div>
+          <span>Total Loans</span>
+          <strong id="totalLoans">0</strong>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">✅</div>
+          <span>Approved Loans</span>
+          <strong id="approvedLoans">0</strong>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">🏁</div>
+          <span>Closed Loans</span>
+          <strong id="closedLoans">0</strong>
+        </div>
       </div>
-      <div class="stat-box">
-        <span>Closed Loans</span>
-        <strong id="closedLoans">0</strong>
+    </section>
+
+    <!-- EMI Analytics Section -->
+    <section class="card" aria-labelledby="emi-overview">
+      <h2 id="emi-overview">💰 EMI Overview</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-icon">📋</div>
+          <span>Total EMIs</span>
+          <strong id="totalEmis">0</strong>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">✔️</div>
+          <span>Paid EMIs</span>
+          <strong id="paidEmis">0</strong>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">⏳</div>
+          <span>Pending EMIs</span>
+          <strong id="pendingEmis">0</strong>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- EMI Analytics -->
-  <div class="card">
-    <h3>EMI Overview</h3>
-    <div class="stats">
-      <div class="stat-box">
-        <span>Total EMIs</span>
-        <strong id="totalEmis">0</strong>
+    <!-- Charts Section -->
+    <section class="charts-grid">
+      <article class="card">
+        <h3>Loan Status Distribution</h3>
+        <canvas id="loanPieChart"></canvas>
+      </article>
+
+      <article class="card">
+        <h3>EMI Payment Status</h3>
+        <canvas id="emiBarChart"></canvas>
+      </article>
+    </section>
+
+    <!-- Admin Actions Section -->
+    <section class="card actions-card" aria-labelledby="admin-actions">
+      <h2 id="admin-actions">⚙️ Admin Actions</h2>
+      <div class="actions-grid">
+        <a href="admin-loans.html" class="btn btn-primary">📋 Verify Loan Applications</a>
+        <a href="admin-repayments.html" class="btn btn-primary">📊 View Repayment Report</a>
+        <a href="../public/index.html" class="btn btn-secondary">🔙 Back to Main</a>
       </div>
-      <div class="stat-box">
-        <span>Paid EMIs</span>
-        <strong id="paidEmis">0</strong>
-      </div>
-      <div class="stat-box">
-        <span>Pending EMIs</span>
-        <strong id="pendingEmis">0</strong>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Charts -->
-  <div class="card">
-    <h3>Loan Status Chart</h3>
-    <canvas id="loanPieChart"></canvas>
-  </div>
+  </main>
 
-  <div class="card">
-    <h3>EMI Payment Chart</h3>
-    <canvas id="emiBarChart"></canvas>
-  </div>
-
-  <!-- Actions -->
-  <div class="card actions">
-    <h3>Admin Actions</h3>
-    <a href="admin-loans.html">Verify Loan Applications</a>
-    <a href="admin-repayments.html">View Repayment Report</a>
-    <a href="../public/dashboard.html">Back to Main Dashboard</a>
-  </div>
-
-  <button onclick="logout()">Logout</button>
-
-</div>
-<script type="module" src="./js/admin-analytics..js"></script>
+  <script type="module" src="./js/admin-analytics.js"></script>
 </body>
 </html>

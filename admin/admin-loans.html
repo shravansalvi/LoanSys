@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Loan Approval</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Approval - Admin Dashboard</title>
+  <link rel="stylesheet" href="../public/css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>📋 Pending Loan Applications</h1>
+    <a href="admin-dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-<h2>Pending Loan Applications</h2>
-<div id="loanList">Loading...</div>
+  <div class="container">
+    <section class="card">
+      <div id="loanList">
+        <p style="text-align: center; color: #999; padding: 20px;">Loading loan applications...</p>
+      </div>
+    </section>
+  </div>
 
-<a href="admin-dashboard.html">Back</a>
-
-<script type="module" src="./js/admin.js"></script>
-
+  <script type="module" src="./js/admin.js"></script>
 </body>
 </html>

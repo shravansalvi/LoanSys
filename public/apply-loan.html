@@ -1,23 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Loan Application Form</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Loan</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <h1>📝 Loan Application Form</h1>
+    <a href="dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-<h2>Loan Application Form</h2>
-<input id="loanName" placeholder="Loan Name">
+  <div class="container">
+    <section class="card">
+      <form onsubmit="applyLoan(event)">
+        <div class="form-group">
+          <label for="loanName">Loan Name/Type</label>
+          <input type="text" id="loanName" placeholder="e.g., Personal Loan, Home Loan" required>
+        </div>
 
+        <div class="form-group">
+          <label for="amount">Loan Amount (₹)</label>
+          <input type="number" id="amount" placeholder="Enter loan amount" min="1000" required>
+        </div>
 
-<input type="number" id="amount" placeholder="Loan Amount"><br><br>
-<input type="number" id="tenure" placeholder="Tenure (months)"><br><br>
-<input type="number" id="rate" placeholder="Interest Rate"><br><br>
+        <div class="form-group">
+          <label for="tenure">Tenure (Months)</label>
+          <input type="number" id="tenure" placeholder="Enter tenure in months" min="1" required>
+        </div>
 
-<button onclick="applyLoan()">Submit Loan Application</button>
+        <div class="form-group">
+          <label for="rate">Interest Rate (%)</label>
+          <input type="number" id="rate" placeholder="Enter interest rate" step="0.01" min="0" required>
+        </div>
 
-<br><br>
-<a href="dashboard.html">Back to Dashboard</a>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+      </form>
+    </section>
+  </div>
 
-<script type="module" src="./js/loan.js"></script>
+  <script type="module" src="./js/loan.js"></script>
 </body>
 </html>

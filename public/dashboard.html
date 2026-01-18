@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="../css/styles.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Bank Loan Management</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
-  <!DOCTYPE html>
-  <html>
+  <nav class="navbar">
+    <h1>🏦 Bank Loan Portal – Borrower Dashboard</h1>
+    <button class="btn btn-danger" onclick="logout()">Logout</button>
+  </nav>
 
-  <head>
-    <title>Borrower Dashboard</title>
-    <link rel="stylesheet" href="./css/borrower.css">
-  </head>
-
-  <body>
-
-    <div class="header">
-      Bank Loan Portal – Borrower Dashboard
-    </div>
-
-    <div class="container">
-
-      <div class="card">
-        <h3>Loan Summary</h3>
+  <div class="container">
+    <!-- Loan Summary Card -->
+    <section class="card">
+      <h2>📊 Loan Summary</h2>
+      <div class="stats">
         <div class="stat-box">
+          <div class="stat-icon">📋</div>
           <span>Loan Status</span>
           <strong id="loanStatus">Approved</strong>
         </div>
         <div class="stat-box">
+          <div class="stat-icon">💰</div>
           <span>Monthly EMI</span>
           <strong>₹<span id="emiAmount">0</span></strong>
         </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Actions</h3>
-
-        <a href="apply-loan.html">Apply Loan</a><br><br>
-        <a href="borrower-loans.html">My Loan Status</a><br><br>
-        <a href="pay-emi.html">Pay EMI</a><br><br>
-        <a href="upload-documents.html">Upload Documents</a><br><br>
-
-        <button onclick="logout()">Logout</button>
+    <!-- Quick Actions -->
+    <section class="card actions-card">
+      <h2>⚙️ Quick Actions</h2>
+      <div class="actions-grid">
+        <a href="apply-loan.html" class="btn btn-primary">📝 Apply for Loan</a>
+        <a href="borrower-loans.html" class="btn btn-primary">📋 My Loan Status</a>
+        <a href="pay-emi.html" class="btn btn-primary">💳 Pay EMI</a>
+        <a href="emi-history.html" class="btn btn-primary">📊 EMI History</a>
+        <a href="upload-documents.html" class="btn btn-primary">📄 Upload Documents</a>
       </div>
+    </section>
 
-    <!-- Admin Panel -->
-    <div id="adminSection" style="display:none;">
-      <h3>Admin / Loan Officer Panel</h3>
+    <!-- Admin Panel (Conditional) -->
+    <section id="adminSection" class="card" style="display:none;">
+      <h2>⚙️ Admin / Loan Officer Panel</h2>
+      <div class="actions-grid">
+        <a href="../admin/admin-dashboard.html" class="btn btn-secondary">📊 Admin Dashboard</a>
+        <a href="../admin/admin-loans.html" class="btn btn-secondary">✅ Verify Loans</a>
+      </div>
+    </section>
+  </div>
 
-      <a href="../admin/admin-dashboard.html">Admin Dashboard</a><br><br>
-      <a href="../admin/admin-loans.html">Verify Loan Applications</a><br><br>
+  <script type="module" src="./js/dashboard.js"></script>
+</body>
 
-      <button onclick="logout()">Logout</button>
-    </div>
-    <script type="module" src="./js/dashboard.js"></script>
-  </body>
-
-  </html>
+</html>

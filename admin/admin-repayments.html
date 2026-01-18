@@ -1,45 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Repayment Report</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repayment Report - Admin Dashboard</title>
+  <link rel="stylesheet" href="../public/css/styles.css">
 </head>
 
 <body>
-    <h3>Search & Filter</h3>
+  <nav class="navbar">
+    <h1>💳 EMI Repayment Report</h1>
+    <a href="admin-dashboard.html" class="btn btn-secondary">← Back</a>
+  </nav>
 
-    <input type="text" id="searchInput" placeholder="Search by user or loan name">
+  <div class="container">
+    <!-- Search & Filter Section -->
+    <section class="card">
+      <h2>🔍 Search & Filter</h2>
+      <div class="filter-group">
+        <div class="form-group">
+          <label for="searchInput">Search by User or Loan Name</label>
+          <input type="text" id="searchInput" placeholder="Enter user or loan name..." class="search-input">
+        </div>
+        <div class="form-group">
+          <label for="statusFilter">Filter by Status</label>
+          <select id="statusFilter" class="filter-select">
+            <option value="">All Status</option>
+            <option value="paid">✔️ Paid</option>
+            <option value="pending">⏳ Pending</option>
+          </select>
+        </div>
+      </div>
+    </section>
 
-    <select id="statusFilter">
-        <option value="">All</option>
-        <option value="paid">Paid</option>
-        <option value="pending">Pending</option>
-    </select>
-
-    <br><br>
-
-    <h2>All EMI Repayments</h2>
-
-    <table border="1" cellpadding="8">
-        <thead>
+    <!-- Repayments Table Section -->
+    <section class="card">
+      <h2>📋 All EMI Repayments</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
             <tr>
-                <th>User Name</th>
-                <th>Loan Name</th>
-                <th>EMI</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Paid On</th>
+              <th>User Name</th>
+              <th>Loan Name</th>
+              <th>EMI #</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Paid On</th>
             </tr>
-        </thead>
-        <tbody id="repaymentTable">
-            Loading...
-        </tbody>
-    </table>
+          </thead>
+          <tbody id="repaymentTable">
+            <tr>
+              <td colspan="6" style="text-align: center; color: #999; padding: 20px;">Loading repayments...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 
-    <br>
-    <a href="admin-dashboard.html">Back</a>
-
-    <script type="module" src="./js/admin-repayments.js"></script>
+  <script type="module" src="./js/admin-repayments.js"></script>
 </body>
 
 </html>

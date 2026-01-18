@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Login - Bank Loan Management System">
+  <title>Admin Login - Bank Loan Management</title>
+  <link rel="stylesheet" href="../public/css/styles.css">
+</head>
+
+<body class="auth-page">
+  <main class="auth-container">
+    <section class="auth-card">
+      <div class="auth-header">
+        <h1>🏦 Admin Login</h1>
+        <p>Bank Loan Management System</p>
+      </div>
+
+      <form id="adminLoginForm" class="auth-form">
+        <div class="form-group">
+          <label for="adminEmail">Email Address</label>
+          <input 
+            type="email" 
+            id="adminEmail" 
+            name="email" 
+            placeholder="Enter your email" 
+            required
+            aria-label="Email Address"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Password</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            name="password" 
+            placeholder="Enter your password" 
+            required
+            aria-label="Password"
+          >
+        </div>
+
+        <div id="errorMessage" class="error-message" role="alert"></div>
+
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Not an admin? <a href="../public/borrower-login.html">Borrower Login</a></p>
+        <p><a href="../public/index.html">Back to Home</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./js/admin-login.js"></script>
+</body>
+</html>

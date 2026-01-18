@@ -1,22 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Register</title>
-    <link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Bank Loan Management</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <style>
+    .auth-container {
+      max-width: 450px;
+      margin: 60px auto;
+      padding: 0;
+    }
+    .auth-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      padding: 50px;
+    }
+    .auth-card h1 {
+      font-size: 2em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .form-group { margin-bottom: 20px; }
+    .auth-card input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    .auth-card input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 12px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .auth-btn:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    .auth-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .auth-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .auth-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>📝 Register</h1>
+      
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
 
-  <h2>User Registration</h2>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
 
-  <input type="text" id="name" placeholder="Full Name"><br><br>
-  <input type="email" id="email" placeholder="Email"><br><br>
-  <input type="password" id="password" placeholder="Password"><br><br>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter a strong password" required>
+      </div>
 
-  <button onclick="register()">Register</button>
+      <button class="auth-btn" onclick="register()">Register</button>
 
-  <p>Already registered? <a href="login.html">Login</a></p>
+      <p class="auth-link">
+        Already registered? <a href="login.html">Login here</a>
+      </p>
+    </div>
+  </div>
 
   <script type="module" src="js/auth.js"></script>
-
 </body>
 </html>

@@ -1,138 +1,133 @@
+// ===============================
+// Firebase Imports (ONLY ONCE)
+// ===============================
 import { auth, db } from "./firebase-config.js";
-
-import { onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 import {
   collection,
   query,
   where,
   getDocs,
-  updateDoc,
-  doc
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
+// ===============================
+// AUTH GUARD
+// ===============================
+onAuthStateChanged(auth, (user) => {
+  if (!user && window.location.pathname.includes("pay-emi")) {
     window.location.href = "login.html";
-    return;
   }
-
-  // 1️⃣ Get approved loan
-  const loanSnap = await getDocs(
-    query(
-      collection(db, "loans"),
-      where("userId", "==", user.uid),
-      where("status", "==", "approved")
-    )
-  );
-
-  // ❗ SAFETY CHECK
-  if (loanSnap.empty) {
-    document.getElementById("emiTable").innerHTML =
-      "<tr><td colspan='4'>No approved loan found</td></tr>";
-    return;
-  }
-
-
-  const loanId = loanSnap.docs[0].id;
-
-  // 2️⃣ Get EMI schedule
-  const emiSnap = await getDocs(
-    query(collection(db, "repayments"), where("loanId", "==", loanId))
-  );
-
-  const table = document.getElementById("emiTable");
-  table.innerHTML = "";
-
-  if (emiSnap.empty) {
-    table.innerHTML =
-      "<tr><td colspan='4'>No EMI schedule found</td></tr>";
-    return;
-  }
-  const emis = [];
-  emiSnap.forEach(d => emis.push({ id: d.id, ...d.data() }));
-
-  emis.sort((a, b) => a.emiNumber - b.emiNumber);
-
-  // 3️⃣ Render EMI list
-  emis.forEach((emi, index) => {
-    const canPay =
-      emi.status === "pending" &&
-      (index === 0 || emis[index - 1].status === "paid");
-
-    table.innerHTML += `
-    <tr>
-      <td>EMI ${emi.emiNumber}</td>
-      <td>₹${emi.amount}</td>
-      <td>${emi.status}</td>
-      <td>
-  ${emi.dueDate
-        ? emi.dueDate.toDate().toLocaleDateString()
-        : "Not Set"}
-</td>
-
-    
-      <td>
-        ${canPay
-        ? `<button onclick="payEmi('${emi.id}')">Pay</button>`
-        : emi.status === "paid"
-          ? "Paid"
-          : "Locked"
-      }
-      </td>
-    </tr>
-  `;
-  });
-
 });
 
-window.payEmi = async function (id) {
-  const emiRef = doc(db, "repayments", id);
-  const emiSnap = await getDoc(emiRef);
-  const emi = emiSnap.data();
-
-  // 1️⃣ Mark this EMI as paid
-  await updateDoc(emiRef, {
-    status: "paid",
-    paidOn: new Date()
-  });
-
-  // 2️⃣ Check if all EMIs are paid
-  const allEmisSnap = await getDocs(
-    query(
-      collection(db, "repayments"),
-      where("loanId", "==", emi.loanId)
-    )
-  );
-
-  let allPaid = true;
-
-  allEmisSnap.forEach((d) => {
-    if (d.data().status !== "paid") {
-      allPaid = false;
-    }
-  });
-
-  // 3️⃣ If all paid → close loan
-  if (allPaid) {
-    await updateDoc(doc(db, "loans", emi.loanId), {
-      status: "closed",
-      closedOn: new Date()
-    });
-
-    alert("🎉 All EMIs paid. Loan closed successfully!");
-  } else {
-    alert("EMI Paid Successfully");
+// ===============================
+// LOAD EMI TABLE
+// ===============================
+async function loadEMIs() {
+  const emiTable = document.getElementById("emiTable");
+  
+  if (!emiTable) {
+    console.error("emiTable element not found");
+    return;
   }
 
-  location.reload();
-};
+  try {
+    const uid = localStorage.getItem("uid");
+    if (!uid) {
+      window.location.href = "login.html";
+      return;
+    }
 
-if (loan.status === "closed") {
-  document.getElementById("emiTable").innerHTML =
-    "<tr><td colspan='4'>Loan is closed. No pending EMIs.</td></tr>";
-  return;
+    // Get approved loans
+    const loansQuery = query(
+      collection(db, "loans"),
+      where("uid", "==", uid),
+      where("status", "==", "approved")
+    );
+
+    const loansSnapshot = await getDocs(loansQuery);
+    emiTable.innerHTML = "";
+
+    if (loansSnapshot.empty) {
+      emiTable.innerHTML = `
+        <tr>
+          <td colspan="4" style="text-align: center; color: #999; padding: 20px;">
+            📭 No approved loans with pending EMIs
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    let html = "";
+    loansSnapshot.forEach((loanDoc) => {
+      const loanData = loanDoc.data();
+      const monthlyEMI = parseFloat(loanData.monthlyEMI || 0);
+      const maxMonths = Math.min(loanData.tenure || 12, 12);
+      
+      for (let i = 1; i <= maxMonths; i++) {
+        const row = `
+          <tr>
+            <td>${loanData.loanName || "EMI"} - Month ${i}</td>
+            <td>₹${monthlyEMI.toLocaleString()}</td>
+            <td><span class="badge badge-pending">⏳ Pending</span></td>
+            <td>
+              <button class="btn btn-success" onclick="payEMI('${loanDoc.id}', ${i}, ${monthlyEMI})">
+                💳 Pay Now
+              </button>
+            </td>
+          </tr>
+        `;
+        html += row;
+      }
+    });
+    
+    emiTable.innerHTML = html;
+  } catch (error) {
+    console.error("Error loading EMIs:", error);
+    emiTable.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align: center; color: red; padding: 20px;">
+          ❌ Error loading EMIs
+        </td>
+      </tr>
+    `;
+  }
 }
 
+// ===============================
+// PAY EMI FUNCTION
+// ===============================
+async function payEMI(loanId, emiNo, amount) {
+  try {
+    const uid = localStorage.getItem("uid");
+    const userName = localStorage.getItem("userName") || "User";
 
+    const confirmed = confirm(`💳 Confirm payment of ₹${parseFloat(amount).toLocaleString()} for EMI #${emiNo}?`);
+    
+    if (!confirmed) return;
+
+    // Record payment
+    await addDoc(collection(db, "emiPayments"), {
+      uid: uid,
+      userName: userName,
+      loanId: loanId,
+      emiNo: emiNo,
+      amount: amount,
+      status: "paid",
+      paidOn: new Date(),
+      paymentMethod: "Online"
+    });
+
+    alert("✅ Payment of ₹" + parseFloat(amount).toLocaleString() + " processed successfully!");
+    loadEMIs();
+  } catch (error) {
+    console.error("Payment error:", error);
+    alert("❌ Payment failed: " + error.message);
+  }
+}
+
+window.payEMI = payEMI;
+document.addEventListener("DOMContentLoaded", loadEMIs);

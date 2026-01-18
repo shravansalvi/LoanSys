@@ -6,13 +6,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 
 const firebaseConfig = {
  // API Config
- apiKey: "AIzaSyDizSRSsBSeWvduqRWk45BTnMtnHP_WyYI",
-  authDomain: "systemloan.firebaseapp.com",
-  projectId: "systemloan",
-  storageBucket: "systemloan.firebasestorage.app",
-  messagingSenderId: "488408291435",
-  appId: "1:488408291435:web:e3786c9bb440e0f6e4b92e",
-  measurementId: "G-9DT46H7KQ3"
+ 
 };
 
 let app, auth, db, analytics;
